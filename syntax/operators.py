@@ -1,6 +1,8 @@
+# Oncelikle iki tane sayi tanimladik
 num_1 = 10
 num_2 = 3
 
+# Bu iki sayiyi kullanarak islemleri gerceklestirdik
 summation = num_1 + num_2
 subtraction = num_1 - num_2
 multiplication = num_1 * num_2
