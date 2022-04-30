@@ -1,1 +1,1 @@
-# atb-course
+# This is the repository for ATB Python course
