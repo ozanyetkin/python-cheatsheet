@@ -10,6 +10,7 @@ division = num_1 / num_2
 modulo = num_1 % num_2
 exponentiation = num_1 ** num_2
 
+# Sonuclari yazdirdik
 print(summation)
 print(subtraction)
 print(multiplication)

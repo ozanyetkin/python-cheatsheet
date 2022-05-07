@@ -2,24 +2,27 @@ a = 5
 b = 3
 c = 8
 
+if a == b:
+  print(a + b)
+
 if a > b:
-    print(a + b)
+  print(a + b)
 elif c > a:
-    print(a + c)
+  print(a + c)
 else:
-    print(a + b + c)
+  print(a + b + c)
 
 if a > b:
-    print(a + b)
+  print(a + b)
 if c > a:
-    print(a + c)
+  print(a + c)
 else:
-    print(a + b + c)
+  print(a + b + c)
 
 if a > b:
-    print(a + b)
+  print(a + b)
 if c > a:
-    print(a + c)
+  print(a + c)
 
 print(a + b + c)
 
@@ -64,3 +67,4 @@ elif pet_type == "fish":
   print("You have a fish")
 else:
   print("Not sure!")
+
