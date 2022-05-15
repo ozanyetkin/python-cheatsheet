@@ -1,7 +1,4 @@
-def maximum(num_1, num_2):
-    if num_1 > num_2:
-        return num_1
-    else:
-        return num_2
+# for i, digit in enumerate("321581262662993888198883612863553555553192875390101"):
+    # print(i, digit)
 
-print(maximum(3, 5))
+print("321581262662993888198883612863553555553192875390101"[23])
