@@ -1,0 +1,5 @@
+ahmet, 72
+mehmet, 32
+ali, 83
+zeynep, 91
+mahmut, 24

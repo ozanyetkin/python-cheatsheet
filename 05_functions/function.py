@@ -17,5 +17,5 @@ def calculate_average(a_list):
 
 grades = [1, 25, 64, 74, 100, 82]
 digits = "21313523235"
-# print(calculate_average(grades))
-# print(calculate_average(digits))
+print(calculate_average(grades))
+print(calculate_average(digits))
