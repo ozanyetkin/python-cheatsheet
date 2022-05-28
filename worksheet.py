@@ -1,16 +1,10 @@
-x = 5
-y = x
+# glucose_concentration	blood_pressure	serum_insulin	Body_mass_index	Age
+# 148	72	NA	33.6	50
+# 85	66	NA	26.6	31
 
-x += 1
-print(id(x))
-print(id(y))
-# Call by reference
-def fun_list(x):
-    print(x, id(x)) 
-    x.append(1)
-    print(x, id(x)) 
-
-my_list = [5]
-print(my_list, id(my_list))
-
-fun_list(my_list)
+dict_example = {
+    "glucose_concentration": 148,
+    "blood_pressure": 72,
+}
+dict_example.update({"glucose_concentration": 85})
+print(dict_example)
