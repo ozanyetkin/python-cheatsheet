@@ -58,3 +58,19 @@ def find_min_max(lookup, minim, maxim, target, dicti):
 print(find_min_max("Age", 20, 30, "blood_pressure", diabetes_dict))
 print(find_min_max("Age", 20, 30, "serum_insulin", diabetes_dict))
 print(find_min_max("serum_insulin", 20, 50, "Age", diabetes_dict))
+
+def filter_dict(lookup, minim, maxim, dicti):
+    f_dict = dicti.copy()
+
+    for key in f_dict.keys():
+        f_dict.update({key: []})
+    
+    for i, val in enumerate(dicti[lookup]):
+        if val != "NA":
+            if maxim >= float(val) >= minim:
+                for key in f_dict.keys():
+                    f_dict[key].append(dicti[key][i])
+    return f_dict
+
+filtered = filter_dict("Age", 26, 28, diabetes_dict)
+print(filtered)
