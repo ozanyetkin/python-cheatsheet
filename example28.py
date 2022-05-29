@@ -1,3 +1,4 @@
+from re import L
 from turtle import distance
 from example26 import read_file
 
@@ -32,5 +33,7 @@ def contact_check(start, dictionary, contact_dict):
 if __name__ == "__main__":
     atom_dict = gen_dict("atom_file")
     print(edis("atom7", "atom3", atom_dict))
-    c_dict = atom_dict.copy()
+    c_dict = dict.fromkeys(atom_dict.keys(), None)
+    for key in c_dict.keys():
+        c_dict[key] = {}
     print(contact_check(1, atom_dict, c_dict))
