@@ -1,9 +1,11 @@
 def read_file(file_name):
-    with open(f'{file_name}.txt') as f:
+    with open(f"{file_name}.txt") as f:
         lines = f.readlines()
     for i, line in enumerate(lines):
         lines[i] = line.replace("\n", "").split("\t")
     return lines
+
+
 """
 count = 0
 total = 0
@@ -15,6 +17,8 @@ for i in range(1, len(diabetes_data)):
 average = total / count
 print(average)
 """
+
+
 def gen_dict(file_name):
     data = read_file(file_name)
     column_num = len(data[0])
@@ -37,6 +41,7 @@ def find_na(dicti):
         dicti_na.update({key: count_key})
     return dicti_na
 
+
 def find_min_max(lookup, minim, maxim, target, dicti):
     target_min = 99999
     target_max = 0
@@ -49,18 +54,20 @@ def find_min_max(lookup, minim, maxim, target, dicti):
                     target_max = float(dicti[target][i])
     return (target_min, target_max)
 
+
 def filter_dict(lookup, minim, maxim, dicti):
     f_dict = dicti.copy()
 
     for key in f_dict.keys():
         f_dict.update({key: []})
-    
+
     for i, val in enumerate(dicti[lookup]):
         if val != "NA":
             if maxim >= float(val) >= minim:
                 for key in f_dict.keys():
                     f_dict[key].append(dicti[key][i])
     return f_dict
+
 
 if __name__ == "__main__":
     diabetes_data = read_file("diabetes_data")
