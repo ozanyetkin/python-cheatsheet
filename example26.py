@@ -4,8 +4,6 @@ def read_file(file_name):
     for i, line in enumerate(lines):
         lines[i] = line.replace("\n", "").split("\t")
     return lines
-
-diabetes_data = read_file("diabetes_data")
 """
 count = 0
 total = 0
@@ -28,8 +26,6 @@ def gen_dict(file_name):
         dictionary.update({data[0][i]: sutun})
     return dictionary
 
-diabetes_dict = gen_dict("diabetes_data")
-print(diabetes_dict.keys())
 
 def find_na(dicti):
     dicti_na = {}
@@ -40,8 +36,6 @@ def find_na(dicti):
                 count_key += 1
         dicti_na.update({key: count_key})
     return dicti_na
-
-print(find_na(diabetes_dict))
 
 def find_min_max(lookup, minim, maxim, target, dicti):
     target_min = 99999
@@ -54,10 +48,6 @@ def find_min_max(lookup, minim, maxim, target, dicti):
                 if float(dicti[target][i]) > target_max:
                     target_max = float(dicti[target][i])
     return (target_min, target_max)
-
-print(find_min_max("Age", 20, 30, "blood_pressure", diabetes_dict))
-print(find_min_max("Age", 20, 30, "serum_insulin", diabetes_dict))
-print(find_min_max("serum_insulin", 20, 50, "Age", diabetes_dict))
 
 def filter_dict(lookup, minim, maxim, dicti):
     f_dict = dicti.copy()
@@ -72,5 +62,13 @@ def filter_dict(lookup, minim, maxim, dicti):
                     f_dict[key].append(dicti[key][i])
     return f_dict
 
-filtered = filter_dict("Age", 26, 28, diabetes_dict)
-print(filtered)
+if __name__ == "__main__":
+    diabetes_data = read_file("diabetes_data")
+    diabetes_dict = gen_dict("diabetes_data")
+    filtered = filter_dict("Age", 26, 28, diabetes_dict)
+    print(diabetes_dict.keys())
+    print(find_na(diabetes_dict))
+    print(find_min_max("Age", 20, 30, "blood_pressure", diabetes_dict))
+    print(find_min_max("Age", 20, 30, "serum_insulin", diabetes_dict))
+    print(find_min_max("serum_insulin", 20, 50, "Age", diabetes_dict))
+    print(filtered)
