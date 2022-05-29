@@ -15,6 +15,22 @@ def edis(atom1, atom2, dictionary):
     dist = (xdiskare + ydiskare + zdiskare) ** (1 / 2)
     return dist
 
+def contact_check(start, dictionary, contact_dict):
+    stop = len(dictionary.keys())
+    for i in range(start, stop + 1):
+        if edis(f"atom{start}", f"atom{i}", dictionary) <= 4:
+            contact_dict[f"atom{start}"].update({f"atom{i}": edis(f"atom{start}", f"atom{i}", dictionary)})
+            contact_dict[f"atom{i}"].update({f"atom{start}": edis(f"atom{start}", f"atom{i}", dictionary)})
+        else:
+            contact_dict[f"atom{start}"].update({f"atom{i}": edis(f"atom{start}", f"atom{i}", dictionary)})
+            contact_dict[f"atom{i}"].update({f"atom{start}": edis(f"atom{start}", f"atom{i}", dictionary)})
+    if start == stop:
+        return contact_dict
+    else:
+        return contact_check(start + 1, dictionary, contact_dict)
+
 if __name__ == "__main__":
     atom_dict = gen_dict("atom_file")
     print(edis("atom7", "atom3", atom_dict))
+    c_dict = dict.fromkeys(atom_dict.keys(), {})
+    print(contact_check(1, atom_dict, c_dict))
