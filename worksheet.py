@@ -4,7 +4,7 @@ a = ["1", "asdasd", 3, 4, 5]
 print(random.randint(0, 10))
 print(random.choice(a))
 
-contacts = {"atom1": {"atom2": True, "atom3": False, "atom4": True}}
+contacts = {"atom1": {},"atom2": {}}
 ["atom5", "atom12"]
 contacts = {"atom1": ["atom5", "atom12"]}
 

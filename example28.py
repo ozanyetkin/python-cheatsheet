@@ -33,7 +33,7 @@ def contact_check(start, dictionary, contact_dict):
 if __name__ == "__main__":
     atom_dict = gen_dict("atom_file")
     print(edis("atom7", "atom3", atom_dict))
-    c_dict = dict.fromkeys(atom_dict.keys(), None)
+    c_dict = dict.fromkeys(atom_dict.keys(), {})
     for key in c_dict.keys():
         c_dict[key] = {}
     print(contact_check(1, atom_dict, c_dict))
