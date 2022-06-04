@@ -26,3 +26,31 @@ for num in nums:
 
 avg = total / len
 print(avg)
+
+test_cases = [
+    "username@companyname.com", 
+    "", "usernamecompanyname.com", 
+    "username@companynamecom", 
+    "user name@companyname.com"
+]
+
+"""
+for test in test_cases:
+    index = test.find("@")
+    if index != -1:
+        user_name = test[0:index]
+    else:
+        user_name = ""
+    print(user_name)
+"""
+
+test = "usernamecompanyname.com"
+for i, t in enumerate(test):
+    if t == "@":
+        index = i
+try:
+    user_name = test[0:index]
+except NameError:
+    user_name = ""
+
+print(user_name)

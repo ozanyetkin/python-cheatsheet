@@ -1,5 +1,3 @@
-from re import L
-from turtle import distance
 from example26 import read_file
 
 def gen_dict(filename):
