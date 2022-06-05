@@ -35,12 +35,39 @@ class Clock:
             return self._hour == other._hour and self._minute == other._minute
         else:
             return False
-c = Clock()
 
-for i in range(100):
-    c.tick()
-print(c)
 
+class PrecisionClock(Clock):
+    def __init__(self, h=0, m=0, s=0):
+        super().__init__(h, m)
+        try:
+            s=int(s)
+        except ValueError:
+            raise ValueError("Error: Seconds should be integers or strings containing integers!")
+        
+        if s < 0 or s > 59:
+            raise ValueError("Second must be between 0 and 59")
+        self._second = s
+
+    def __str__(self):
+        'convert the time into a printable format (e.g. 23:10:05)'
+        return super().__str__() + ":%02d" % (self._second)
+    
+    def tick(self):
+        'Add one second to the current time'
+        self._second += 1
+        if self._second == 60:
+            self._second = 0
+            super().tick()
+
+    def __eq__(self, other):
+        'check whether the current time is equal to the time on the other Clock'
+        if super().__eq__(other):
+            if isinstance(other, PrecisionClock):
+                return self._second == other._second
+            return True
+        return False
+    
 
 # Run the test harness provided for precision clock
 #TEST 1
