@@ -1,8 +1,5 @@
-import matplotlib.pyplot as plt
-from PIL import Image
+import numpy as np
 
-img = Image.open('example_img.png')
-img.thumbnail((64, 64), Image.ANTIALIAS)  # resizes image in-place
-print(img)
-imgplot = plt.imshow(img)
-plt.show()
+pixel = np.array([[1, 1, 1], [5, 5, 5]])
+print(pixel)
+print(np.average(pixel))
