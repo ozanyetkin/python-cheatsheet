@@ -29,10 +29,22 @@ class Image:
         self.width = width
         self.size = (height, width)
         self.color = resized
-        print(resized)
 
     def randomize(self):
         self.color = np.random.randint(255, size=(self.height, self.width, 3))
+
+    def read_image(self, file_name):
+        df = pd.read_table(f"{file_name}.txt", delimiter=",")
+        height = df["H"].iloc[-1] + 1
+        width = df["W"].iloc[-1] + 1
+        canvas = np.empty((height, width, 3), dtype=int)
+        vector = np.array(df[["R", "G", "B"]])
+        for i in range(len(df)):
+            canvas[df["H"].iloc[i], df["W"].iloc[i]] = vector[i]
+        self.height = height
+        self.width = width
+        self.size = (height, width)
+        self.color = canvas
 
     def save(self, name="output"):
         plt.imshow(self.color)
@@ -46,3 +58,7 @@ img.randomize()
 img.save("output_1")
 img.change_size(15, 24)
 img.save("output_2")
+img.read_image("example_image")
+img.save("output_3")
+img.change_size(64, 116)
+img.save("output_4")
