@@ -1,5 +1,5 @@
-import numpy as np
+lst = [1, 2, 3, 4]
 
-pixel = np.array([[1, 1, 1], [5, 5, 5]])
-print(pixel)
-print(np.average(pixel))
+lst.pop(2)
+
+print(lst)
