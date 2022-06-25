@@ -1,3 +1,4 @@
+from matplotlib.pyplot import draw
 import pandas as pd
 import numpy as np
 
@@ -18,5 +19,37 @@ def checker(board):
         if count_c == 5 or count_r == 5:
             return "WIN"
 
-def marker(bas, num):
-    pass
+def unmark_sum(board):
+    sum = 0
+    for i in range(5):
+        for j in range(5):
+            try:
+                sum += board[i][j]
+            except:
+                pass
+    return sum
+
+def play():
+    for drawn in drawn_numbers:
+        bingo_boards[bingo_boards == drawn] = "X"
+        for i in range(0, 500, 5):
+            if checker(bingo_boards[i:i+5, 0:]) == "WIN":
+                return unmark_sum(bingo_boards[i:i+5, 0:]) * drawn
+
+
+def lose():
+    winners = []
+    aday = list(range(100))
+    for drawn in drawn_numbers:
+        bingo_boards[bingo_boards == drawn] = "X"
+        aday_new = []
+        for i in [a * 5 for a in aday]:
+            if checker(bingo_boards[i:i+5, 0:]) == "WIN":
+                winners.append((unmark_sum(bingo_boards[i:i+5, 0:]) * drawn))
+            else:
+                aday_new.append(int(i/5))
+        aday = aday_new
+    return winners[-1]
+
+print(play())
+print(lose())
