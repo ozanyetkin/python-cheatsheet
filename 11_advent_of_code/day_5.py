@@ -12,7 +12,7 @@ def marker(point1, point2):
     if x1 == x2:
         for y in range(min(y1, y2), max(y1, y2) + 1):
             marked.append((x1, y))
-            
+
     if y1 == y2:
         for x in range(min(x1, x2), max(x1, x2) + 1):
             marked.append((x, y1))
