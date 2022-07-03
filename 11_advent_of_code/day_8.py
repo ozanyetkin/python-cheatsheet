@@ -74,3 +74,9 @@ for i in range(len(df[0])):
             output_list.append(9)
 
 print(Counter(output_list))
+
+sum = 0
+for i in range(len(output_list)):
+    sum += output_list[i] * (10 ** ((-i + 3) % 4))
+
+print(sum)
