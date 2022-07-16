@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 df = pd.read_table("11_advent_of_code/day_11.txt", header=None, dtype=str)
 
@@ -61,6 +62,40 @@ def play(array, step):
 
         flash_count += 100 - len(not_flashed)
         array = next_array
+        """
+        fig, ax = plt.subplots()
+        im = ax.imshow(array)
+        plt.savefig(f"octo{_}.png")
+        """
     return flash_count
 
 print(play(octo, 100))
+
+def play_part2(array, step=1):
+    array += np.ones((10, 10), dtype=int)
+    not_flashed = set()
+
+    for i in range(10):
+        for j in range(10):
+            if array[i, j] <= 9:
+                not_flashed.add((i, j))
+    not_flashed = flash_checker(array, not_flashed)
+    next_array = np.zeros((10, 10), dtype=int)
+
+    for n in not_flashed:
+        flashing_neigh = 0
+        for neigh in find_neighbor(n):
+            if neigh not in not_flashed:
+                flashing_neigh += 1
+        next_array[n[0], n[1]] = array[n[0], n[1]] + flashing_neigh
+
+    array = next_array
+    step += 1
+    if len(not_flashed) == 0:
+        fig, ax = plt.subplots()
+        im = ax.imshow(array)
+        plt.savefig(f"octo_{step}.png")
+        return step
+    return play_part2(array, step)
+
+print(play_part2(octo))
