@@ -1,8 +1,3 @@
-import sys
-from collections import Counter
-
-sys.setrecursionlimit(15000)
-
 with open("11_advent_of_code/day_12.txt") as f:
     lines = f.readlines()
 
@@ -46,9 +41,23 @@ def walker(path: dict, path_l=[], current_path=["start"], finished_path=[], curr
             return walker(path, path_l, current_path, finished_path, current_path[-1])
         else:
             return finished_path
-"""
-# print(len(walker(path_dict)))
 
+res = walker(path_dict)
+count_s = 0
+count_l = 0
+
+for r in res:
+    if len(r) == 4:
+        count_s += 1
+    if len(r) == 10:
+        count_l += 1
+    st = ""
+    for s in r:
+        st += s
+        st += "-"
+    print(st)
+"""
+"""
 def walker(map: dict, chosen: str, current_path=[]):
     optional_paths = []
     options = option_finder(map, current_path, chosen) 
@@ -86,3 +95,77 @@ for chosen in chosen_set:
     all_paths += collector(path_dict, chosen)
 
 print(len(all_paths))
+"""
+"""
+nodes = set(path_dict.keys())
+
+layer_dict = {}
+layer_number = 1
+while len(nodes) != 0:
+    if layer_number == 1:
+        layer_dict[1] = path_dict["start"]
+        nodes = nodes.difference(path_dict["start"])
+        nodes.remove("start")
+    
+    next_layer = layer_number + 1
+    layer_dict[next_layer] = path_dict
+    all_connections = set()
+
+    for node in layer_dict[layer_number]:
+        all_connections = all_connections.union(path_dict[node])
+
+    try:
+        all_connections.remove("start")
+    except KeyError:
+        pass
+    
+    for i in range(1, next_layer):
+        all_connections = all_connections.difference(layer_dict[i])
+
+    layer_dict[next_layer] = all_connections
+    nodes = nodes.difference(layer_dict[next_layer])
+    layer_number += 1
+    
+print(layer_dict)
+
+shortest_dict = {}
+last = 0
+for key in layer_dict.keys():
+    if "end" in layer_dict[key]:
+        shortest_dict[key] = set(["end"])
+        last = key
+
+for i in range(last, 1, -1):
+    all_connections = set()
+    for node in shortest_dict[i]:
+        all_connections = all_connections.union(path_dict[node])
+    shortest_dict[i - 1] = layer_dict[i - 1].intersection(all_connections)
+
+print(shortest_dict)
+"""
+path_list = []
+def walker(position, seen=set(), path=["start"], twice=False):
+    print(path)
+    seen.add(position)
+    adv = path_dict[position]
+    adv = adv.difference(seen)
+
+    if "end" in adv:
+        path_list.append(path + ["end"])
+        adv.remove("end")
+
+    if len(adv) != 0:
+        position = adv.pop()
+        path.append(position)
+        return walker(position, seen, path)
+    else:
+        visited = position
+        seen = set(path)
+        position = path.pop()
+        if twice:
+            position = path.pop()
+            return walker(position, seen, path, twice=False)
+        return walker(position, seen, path, twice=True)
+
+walker("start")
+print(path_list)
