@@ -1,4 +1,5 @@
 from collections import Counter, defaultdict
+from copy import deepcopy
 
 with open("11_advent_of_code/day_14.txt") as f:
     lines = f.readlines()
@@ -6,9 +7,9 @@ with open("11_advent_of_code/day_14.txt") as f:
 polymers = [l.replace("\n", "").split("->") for l in lines]
 
 base_polymer = polymers[0][0]
-poly_trans = {}
+n_step_dict = {}
 for poly in polymers[2:]:
-    poly_trans[poly[0][0] + poly[0][1]] = poly[1][1]
+    n_step_dict[poly[0][0] + poly[0][1]] = {1: {poly[0][0] + poly[1][1]: 1, poly[1][1] + poly[0][1]: 1}}
 
 """
 def transform(polymer, position=0):
@@ -45,11 +46,74 @@ def def_value():
     return 0
 
 sum_dict = defaultdict(def_value)
-
+"""
 def generate(base_polymer, step):
     if step > 0:
         for x in range(len(base_polymer) - 1):
-            generate(base_polymer[x] + poly_trans[base_polymer[x:x + 2]], step - 1)
-            generate(poly_trans[base_polymer[x:x + 2]] + base_polymer[x + 1], step - 1)
+            generate(base_polymer[x] + poly_trans[base_polymer[x:x+2]], step - 1)
+            generate(poly_trans[base_polymer[x:x+2]] + base_polymer[x+1], step - 1)
     else:
-        
+        sum_dict[base_polymer[0]] += 1
+
+generate(base_polymer, 10)
+sum_dict[base_polymer[-1]] += 1
+
+print(max(sum_dict.values()) - min(sum_dict.values()))
+"""
+"""
+def generate(base_polymer, step):
+    if step > 0:
+        for x in range(len(base_polymer) - 1):
+            generate(base_polymer[x] + poly_trans[base_polymer[x:x+2]], step - 1)
+            generate(poly_trans[base_polymer[x:x+2]] + base_polymer[x+1], step - 1)
+    else:
+        sum_dict[base_polymer] += 1
+
+one_step_dict = poly_trans.copy()
+
+for key in one_step_dict.keys():
+    generate(key, 1)
+    one_step_dict[key] = deepcopy(sum_dict)
+    sum_dict.clear()
+"""
+# print(one_step_dict)
+
+def finders_keepers_even(base_polymer, step):
+    if len(base_polymer) > 2:
+        for x in range(len(base_polymer) - 1):
+            finders_keepers_even(base_polymer[x:x+2], step)
+    else:
+        if step != 1:
+            if (base_polymer, step) in n_step_dict.keys():
+                return n_step_dict[(base_polymer, step)]
+            else:
+                finders_keepers_even(base_polymer, step // 2)
+        else:
+            base_step = {}
+            # for key in one_step_dict[base_polymer].keys():
+            #     for subkey in one_step_dict[key].keys():
+            #         base_step[subkey] = one_step_dict[base_polymer][key] * one_step_dict[key][subkey]
+            n_step_dict[(base_polymer, 2)] = base_step
+            finders_keepers_even(base_polymer, step * 2)
+
+def climber(double_poly, target):
+    max_key = max(n_step_dict[double_poly].keys())
+    if target == max_key or target == 1:
+        return n_step_dict[double_poly][target]
+    elif target >= max_key * 2:
+        base_dict = {}
+        for key in n_step_dict[double_poly][max_key].keys():
+            for subkey in climber(key, max_key).keys():
+                base_dict.update({subkey: n_step_dict[double_poly][max_key][key] * climber(key, max_key)[subkey]})
+        n_step_dict[double_poly].update({max_key * 2: base_dict})
+        return climber(double_poly, target)
+    else:
+        base_dict = {}
+        for key in n_step_dict[double_poly][max_key].keys():
+            for subkey in climber(key, target - max_key).keys():
+                base_dict.update({subkey: n_step_dict[double_poly][max_key][key] * climber(key, target - max_key)[subkey]})
+        n_step_dict[double_poly].update({target: base_dict})
+        return climber(double_poly, target)
+
+climber("CH", 5)
+print(n_step_dict)
