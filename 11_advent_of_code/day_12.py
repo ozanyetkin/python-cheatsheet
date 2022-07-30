@@ -143,6 +143,7 @@ for i in range(last, 1, -1):
 
 print(shortest_dict)
 """
+"""
 path_list = []
 def walker(position, seen=set(), path=["start"], twice=False):
     print(path)
@@ -169,3 +170,44 @@ def walker(position, seen=set(), path=["start"], twice=False):
 
 walker("start")
 print(path_list)
+"""
+def walker1(path=["start"]):
+    path_num = 0
+    for next_position in path_dict[path[-1]]:
+        if next_position.isupper() or next_position not in path:
+            if next_position == "end":
+                path_num += 1
+            else:
+                path_num += walker1(path + [next_position])
+    return path_num
+
+print(walker1())
+
+def walker2(path=["start"], picked=False):
+    path_num = 0
+    for next_position in path_dict[path[-1]]:
+        if next_position.isupper() or next_position not in path:
+            if next_position == "end":
+                path_num += 1
+            else:
+                path_num += walker2(path + [next_position], picked)
+        else:
+            if not picked and next_position != "start":
+                if next_position == "end":
+                    path_num += 1
+                else:
+                    path_num += walker2(path + [next_position], picked=True)
+    return path_num
+    
+print(walker2())
+
+def walker3(path=["start"]):
+    path_num = 0
+    for next_position in path_dict[path[-1]]:
+        path_num += 1 if next_position == "end" else (walker3, 
+            walker1)[next_position.islower() 
+                and next_position in path](
+                    path + [next_position])
+    return path_num
+
+print(walker3())
