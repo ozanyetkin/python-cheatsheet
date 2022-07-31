@@ -77,7 +77,7 @@ for key in one_step_dict.keys():
     sum_dict.clear()
 """
 # print(one_step_dict)
-
+"""
 def finders_keepers_even(base_polymer, step):
     if len(base_polymer) > 2:
         for x in range(len(base_polymer) - 1):
@@ -95,25 +95,69 @@ def finders_keepers_even(base_polymer, step):
             #         base_step[subkey] = one_step_dict[base_polymer][key] * one_step_dict[key][subkey]
             n_step_dict[(base_polymer, 2)] = base_step
             finders_keepers_even(base_polymer, step * 2)
-
+"""
 def climber(double_poly, target):
     max_key = max(n_step_dict[double_poly].keys())
-    if target == max_key or target == 1:
+    if target == max_key or target == 1 or target in n_step_dict[double_poly].keys():
         return n_step_dict[double_poly][target]
-    elif target >= max_key * 2:
-        base_dict = {}
+    elif target > max_key * 2:
+        base_dict = defaultdict(def_value)
         for key in n_step_dict[double_poly][max_key].keys():
             for subkey in climber(key, max_key).keys():
-                base_dict.update({subkey: n_step_dict[double_poly][max_key][key] * climber(key, max_key)[subkey]})
+                base_dict[subkey] += n_step_dict[double_poly][max_key][key] * climber(key, max_key)[subkey]
         n_step_dict[double_poly].update({max_key * 2: base_dict})
         return climber(double_poly, target)
     else:
-        base_dict = {}
+        base_dict = defaultdict(def_value)
         for key in n_step_dict[double_poly][max_key].keys():
             for subkey in climber(key, target - max_key).keys():
-                base_dict.update({subkey: n_step_dict[double_poly][max_key][key] * climber(key, target - max_key)[subkey]})
+                base_dict[subkey] += n_step_dict[double_poly][max_key][key] * climber(key, target - max_key)[subkey]
         n_step_dict[double_poly].update({target: base_dict})
         return climber(double_poly, target)
 
-climber("CH", 5)
-print(n_step_dict)
+# climber("CH", 5)
+# print(n_step_dict)
+
+my_list = []
+for key in n_step_dict.keys():
+    for subkey in n_step_dict[key][1].keys():
+        my_list.append(subkey)
+
+stupid_priority = Counter(my_list).most_common()
+priority_a = []
+priority_b = []
+
+for key, _ in stupid_priority:
+    if key in n_step_dict[key][1].keys():
+        priority_a.append(key)
+    else:
+        priority_b.append(key)
+
+priority_keys = priority_a + priority_b + list(set(n_step_dict.keys()).difference(set(my_list)))
+
+def stepper(step):
+    for key in priority_keys:
+        climber(key, step)
+
+for x in range(1, 4):
+    stepper(2 ** x)
+
+for x in range(2, 6):
+    stepper(x * 8)
+
+dict_list = []
+for x in range(len(base_polymer) - 1):
+    dict_list.append(climber(base_polymer[x:x+2], 40))
+
+print(dict_list)
+char_dict = defaultdict(def_value)
+for key in priority_keys:
+    for dict in dict_list:
+        if key in dict.keys():
+            char_dict[key[0]] += dict[key]
+            char_dict[key[1]] += dict[key]
+
+char_dict[base_polymer[0]] += 1
+char_dict[base_polymer[-1]] += 1
+
+print((max(char_dict.values()) - min(char_dict.values())) // 2)
