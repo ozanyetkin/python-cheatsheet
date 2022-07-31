@@ -149,7 +149,6 @@ dict_list = []
 for x in range(len(base_polymer) - 1):
     dict_list.append(climber(base_polymer[x:x+2], 40))
 
-print(dict_list)
 char_dict = defaultdict(def_value)
 for key in priority_keys:
     for dict in dict_list:
