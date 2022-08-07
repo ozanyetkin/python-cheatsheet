@@ -1,4 +1,3 @@
-from collections import defaultdict
+import numpy as np
 
-visit_costs = defaultdict(None)
-print(visit_costs[(1, 0)])
+print(np.zeros((2, 3)) + 1)
