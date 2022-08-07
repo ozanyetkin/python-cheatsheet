@@ -1,3 +1,3 @@
-import numpy as np
+from math import ceil
 
-print(np.zeros((2, 3)) + 1)
+print(ceil(5.0))
