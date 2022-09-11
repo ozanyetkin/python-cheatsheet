@@ -85,6 +85,7 @@ def sigmoid_function(x):
     # Return the calculated y value
     return y
 
+
 # Define classify method to convert predicted y values into either 0 or 1
 def classify(y):
     # Initialize a matrix of zeros with the same shape as input y
