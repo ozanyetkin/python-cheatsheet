@@ -1,8 +1,1 @@
-# %%
-a = 5
-# %%
-b = 3
-# %%
-c = a + b
-# %%
-print(c)
+print(list(range(10, 20, 10)))

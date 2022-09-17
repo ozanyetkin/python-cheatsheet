@@ -73,9 +73,9 @@ class LogisticRegression:
         # Calculate predicted_y = sigmoid(weight.x + bias)
         predicted_y = sigmoid_function(x.dot(self.weights) + self.bias)
         # Turn the predicted_y values into either 0 or 1 in order to use for classification, use classify function
-        predicted_classes = classify(predicted_y)
+        # predicted_classes = classify(predicted_y)
         # Return predicted classes values
-        return predicted_classes
+        return predicted_y
 
 
 # Define sigmoid function to be used within the class
