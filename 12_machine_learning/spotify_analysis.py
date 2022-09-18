@@ -25,9 +25,9 @@ scaler = MinMaxScaler()
 scaler.fit(x_data)
 x_data = scaler.transform(x_data)
 # x_data = normalize(x_data, norm="max", axis=0)
-x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, train_size=0.7, random_state=7)
+x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, train_size=0.7)
 
-regressor = LogisticRegression(max_iter=1000, solver="liblinear")
+regressor = LogisticRegression(max_iter=200, solver="saga")
 
 regressor.fit(x_train, y_train)
 y_pred = regressor.predict(x_test)
@@ -40,10 +40,10 @@ feature_names = list(x_num_data.head()) + list(x_cat_data.head())
 for c, f in sorted(zip(coefficients, feature_names), key=lambda x: x[0]):
     print(f"Feature {f} has weight of {c}")
 
-"""
+
 plt.scatter(list(range(0, len(y_pred))), y_pred-y_test, s=0.01)
 plt.show()
-"""
+
 """
 plt.scatter(list(range(i + 1)), errors, c="red")
 plt.show()
@@ -54,4 +54,3 @@ for i in range(56):
     plt.scatter(x_test[50:100, i], y_pred[50:100], c="orange")
     plt.show()
 """
-
