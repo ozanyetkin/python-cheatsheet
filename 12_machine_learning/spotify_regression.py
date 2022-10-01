@@ -41,8 +41,8 @@ for c, f in sorted(zip(coefficients, feature_names), key=lambda x: x[0]):
     print(f"Feature {f} has weight of {c}")
 
 
-plt.scatter(list(range(0, len(y_pred))), y_pred-y_test, s=0.01)
-plt.show()
+# plt.scatter(list(range(0, len(y_pred))), y_pred-y_test, s=0.01)
+# plt.show()
 
 """
 plt.scatter(list(range(i + 1)), errors, c="red")
