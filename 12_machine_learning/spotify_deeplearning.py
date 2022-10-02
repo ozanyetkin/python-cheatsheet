@@ -19,8 +19,9 @@ df.drop(columns=["artist_name", "track_name", "track_id"], inplace=True)
 df.reset_index(inplace=True)
 
 enc = OneHotEncoder(sparse=False, dtype=int)
-
-y_data = pd.get_dummies(df["genre"])
+print(list(df["genre"].unique()))
+labels = list(df["genre"].unique())
+y_data = df["genre"].replace(labels, list(range(len(labels))))
 x_data = df.drop(columns=["genre"])
 
 x_cat_data = enc.fit_transform(x_data[["key", "mode", "time_signature"]])
@@ -37,15 +38,15 @@ x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, train_size=0
 
 model = tf.keras.Sequential([
     tf.keras.layers.Flatten(),
-    tf.keras.layers.Dense(64, activation='tanh'),
-    tf.keras.layers.Dense(y_data.shape[1])
+    tf.keras.layers.Dense(8, activation='sigmoid'),
+    tf.keras.layers.Dense(27)
 ])
 
 opt = tf.keras.optimizers.Adam(learning_rate=0.1)
 
 model.compile(
               optimizer=opt,
-              loss=tf.keras.losses.CategoricalCrossentropy(),
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
 model.fit(x_train, y_train, epochs=1000)
