@@ -1,19 +1,12 @@
 import pandas as pd
 import seaborn as sn
 import matplotlib.pyplot as plt
+import tensorflow as tf
 
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
-from sklearn.neural_network import MLPClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC
-from sklearn.gaussian_process import GaussianProcessClassifier
-from sklearn.gaussian_process.kernels import RBF
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
-from sklearn.naive_bayes import GaussianNB
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
@@ -42,11 +35,29 @@ x_data = scaler.transform(x_data)
 # x_data = normalize(x_data, norm="max", axis=0)
 x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, train_size=0.7)
 
-classifier = MLPClassifier(max_iter=1000)
+model = tf.keras.Sequential([
+    tf.keras.layers.Flatten(),
+    tf.keras.layers.Dense(64, activation='tanh'),
+    tf.keras.layers.Dense(y_data.shape[1])
+])
 
-classifier.fit(x_train, y_train)
+opt = tf.keras.optimizers.Adam(learning_rate=0.1)
 
-y_pred = classifier.predict(x_test)
+model.compile(
+              optimizer=opt,
+              loss=tf.keras.losses.CategoricalCrossentropy(),
+              metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=1000)
+
+test_loss, test_acc = model.evaluate(x_test,  y_test, verbose=2)
+
+print('\nTest accuracy:', test_acc)
+
+probability_model = tf.keras.Sequential([model,
+                                         tf.keras.layers.Softmax()])
+
+y_pred = probability_model.predict(x_test)
 y_pred = pd.DataFrame(y_pred, columns=y_test.columns).idxmax(axis=1)
 y_test = y_test.idxmax(axis=1)
 cm = confusion_matrix(y_test, y_pred)
