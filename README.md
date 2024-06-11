@@ -1,6 +1,3 @@
-Here's a `README.md` file for your GitHub repository covering Python basics:
-
-```markdown
 # Python Basics Repository
 
 Welcome to the Python Basics repository! This repository is designed to help beginners learn the fundamental concepts of Python programming. Below is an overview of the topics covered, along with the dates of completion for each module.
@@ -120,6 +117,6 @@ Contributions are welcome! If you have suggestions or improvements, please creat
 
 Happy coding!
 
-```
+
 
 This `README.md` file provides a structured and comprehensive overview of your repository, making it easier for others to navigate and understand the content. The tags section at the end helps improve the visibility of your repository.
