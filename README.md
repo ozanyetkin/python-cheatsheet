@@ -83,11 +83,11 @@ Introduction to machine learning concepts and implementations. Example: Spotify 
 
 1. Clone the repository to your local machine.
    ```sh
-   git clone https://github.com/your-username/python-basics.git
+   git clone https://github.com/ozanyetkin/python-cheatsheet.git
    ```
 2. Navigate to the directory of the topic you want to study.
    ```sh
-   cd python-basics/01_syntax
+   cd python-cheatsheet/01_syntax
    ```
 3. Open the relevant Python file in your preferred code editor and start learning!
 
